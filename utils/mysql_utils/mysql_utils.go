@@ -1,6 +1,7 @@
 package mysql_utils
 
 import (
+	"fmt"
 	"github.com/AjackTi/bookstore_users-api/utils/errors"
 	"github.com/go-sql-driver/mysql"
 	"strings"
@@ -21,8 +22,8 @@ func ParseError(err error) *errors.RestErr {
 
 	switch sqlErr.Number {
 	case 1062:
-		return errors.NewBadRequestError("invalid data")
+		return errors.NewBadRequestError(fmt.Sprintf("invalid data %s", sqlErr.Error()))
 	}
 
-	return errors.NewInternalServerError("error processing request")
+	return errors.NewInternalServerError(fmt.Sprintf("error processing request %s", sqlErr.Error()))
 }
